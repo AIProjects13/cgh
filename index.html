@@ -29,17 +29,17 @@
                 extend: {
                     fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
                     colors: {
-                        primary: { // Teal
-                            50: '#f0fdfa', 
-                            100: '#ccfbf1', 
-                            200: '#99f6e4', 
-                            300: '#5eead4',
-                            400: '#2dd4bf',
-                            500: '#14b8a6', 
-                            600: '#0d9488',
-                            700: '#0f766e', 
-                            800: '#115e59',
-                            900: '#134e4a' 
+                        primary: { // Violet
+                            50: '#FaF7FF', 
+                            100: '#f3e8ff', 
+                            200: '#e9d5ff', 
+                            300: '#c4b5fd',
+                            400: '#c084fc',
+                            500: '#8b5cf6', 
+                            600: '#7c3aed',
+                            700: '#6d28d9', 
+                            800: '#5b21b6',
+                            900: '#4c1d95' 
                         },
                         secondary: { // Coral
                             50: '#fff1f2',
@@ -47,7 +47,7 @@
                             500: '#f43f5e',
                             600: '#e11d48'
                         },
-                        surface: '#f5f5f4', // Sand
+                        surface: '#FaF7FF', // Faint Purple
                         panel: '#FFFFFF',
                     },
                     boxShadow: {
@@ -60,7 +60,7 @@
     </script>
 
     <style>
-        body { background-color: #f5f5f4; color: #0f172a; }
+        body { background-color: #FaF7FF; color: #0f172a; }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
@@ -73,7 +73,7 @@
         .modal-backdrop.open { opacity: 1; pointer-events: auto; }
 
         .soft-input {
-            width: 100%; padding: 0.75rem 1rem; background-color: #f5f5f4; border: 1px solid #ccfbf1; 
+            width: 100%; padding: 0.75rem 1rem; background-color: #FaF7FF; border: 1px solid #EDE9FE; 
             border-radius: 0.75rem; color: #334155; transition: all 0.2s ease; outline: none;
         }
         .soft-input:focus { background-color: #FFFFFF; border-color: #C4B5FD; box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.1); }
@@ -1128,7 +1128,7 @@
         const auth = getAuth(app);
         setPersistence(auth, browserSessionPersistence).catch(console.error);
         const db = getFirestore(app);
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwlDPDrapkySmuByy1YY6G4lm8lwEFsPy8dbJ8b65PzPMZ374FmXzd71uu5PkutXpU8/exec";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwRqrucTFy3kFmVUOvV41fZC1oinGLHN8s3LicRYBJf5ifFxvpTcOieOySA0tK9QEf4/exec";
 
         let DB = { Pacientes: [], Historia_Clinica: [], Citas: [], Finanzas: [], Gastos: [], Caja_Mensual: [], Marketing_Templates: [], Auditoria_Logs: [] };
         let SYS_CONFIG = { Nombre: 'Clini-k', HoraApertura: '08:00', HoraCierre: '18:00', Dias: ['1','2','3','4','5'], Doctores: [], CalendarID: '' };
@@ -1755,7 +1755,7 @@
                     const gastos = (DB.Gastos||[]).filter(g => { const rf = g.Fecha || g.Timestamp || ''; return rf && rf.split('T')[0] === dStr; }).reduce((s, g) => s + parseFloat(g.Monto||0), 0);
                     const ganancia = ingresos - gastos;
                     gananciaData.push(ganancia);
-                    barColors.push(ganancia < 0 ? '#f43f5e' : '#0d9488');
+                    barColors.push(ganancia < 0 ? '#f43f5e' : '#6d28d9');
 
                     years.forEach(yr => {
                         const citasDia = DB.Citas.filter(c => c.Estado !== 'Cancelada' && c.Fecha === dStr && c.Fecha.startsWith(String(yr))).length;
@@ -1778,7 +1778,7 @@
                     const gastos = (DB.Gastos||[]).filter(g => { const rf = g.Fecha || g.Timestamp || ''; return rf && rf.startsWith(String(currentYear)) && getWeekNum(rf.split('T')[0]) === w; }).reduce((s, g) => s + parseFloat(g.Monto||0), 0);
                     const ganancia = ingresos - gastos;
                     gananciaData.push(ganancia);
-                    barColors.push(ganancia < 0 ? '#f43f5e' : '#0d9488');
+                    barColors.push(ganancia < 0 ? '#f43f5e' : '#6d28d9');
 
                     years.forEach(yr => {
                         const citasSemana = DB.Citas.filter(c => c.Estado !== 'Cancelada' && c.Fecha && c.Fecha.startsWith(String(yr)) && getWeekNum(c.Fecha) === w).length;
@@ -1794,7 +1794,7 @@
                     const gastos = (DB.Gastos||[]).filter(g => { const rf = g.Fecha || g.Timestamp || ''; return rf && rf.startsWith(`${currentYear}-${mStr}`); }).reduce((s, g) => s + parseFloat(g.Monto||0), 0);
                     const ganancia = ingresos - gastos;
                     gananciaData.push(ganancia);
-                    barColors.push(ganancia < 0 ? '#f43f5e' : '#0d9488');
+                    barColors.push(ganancia < 0 ? '#f43f5e' : '#6d28d9');
 
                     years.forEach(yr => {
                         const citasMes = DB.Citas.filter(c => c.Estado !== 'Cancelada' && c.Fecha && c.Fecha.startsWith(`${yr}-${mStr}`)).length;
@@ -2388,21 +2388,21 @@
                 if(pat && pat.Email && String(pat.Email).includes('@')) {
                     const emailBody = `
                         <div style="font-family: 'Inter', sans-serif, Arial; color: #334155; max-width: 600px; margin: auto; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-                            <div style="background-color: #0d9488; padding: 25px; text-align: center;">
+                            <div style="background-color: #6d28d9; padding: 25px; text-align: center;">
                                 <h2 style="color: white; margin: 0; font-size: 24px; font-weight: bold;">${SYS_CONFIG.Nombre}</h2>
                             </div>
                             <div style="padding: 30px; background-color: #ffffff;">
-                                <h2 style="color: #0d9488; margin-top: 0;">Actualización de Cita</h2>
+                                <h2 style="color: #6d28d9; margin-top: 0;">Actualización de Cita</h2>
                                 <p>Hola <strong>${pat.Nombres}</strong>,</p>
                                 <p>Tu cita en <strong>${SYS_CONFIG.Nombre}</strong> con <strong>${docName}</strong> ha sido reprogramada o actualizada exitosamente.</p>
-                                <div style="background-color: #f0fdfa; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                                <div style="background-color: #FaF7FF; padding: 15px; border-radius: 8px; margin: 20px 0;">
                                     <p style="margin: 5px 0;"><strong>Nueva Fecha:</strong> ${date}</p>
                                     <p style="margin: 5px 0;"><strong>Nueva Hora:</strong> ${start}</p>
                                     ${costHtml}
                                 </div>
                                 <p style="color: #ef4444; font-size: 13px;"><strong>Importante:</strong> Si habías guardado la cita anterior en tu calendario, por favor elimínala manualmente.</p>
                                 <p>Para añadir tu nueva cita a tu calendario, haz clic en el siguiente botón:</p>
-                                <a href="${calLink}" style="display:inline-block; margin-top: 10px; padding:12px 20px; background-color:#14b8a6; color:white; text-decoration:none; border-radius:8px; font-weight: bold;">Agregar Nueva Cita a Google Calendar</a>
+                                <a href="${calLink}" style="display:inline-block; margin-top: 10px; padding:12px 20px; background-color:#8b5cf6; color:white; text-decoration:none; border-radius:8px; font-weight: bold;">Agregar Nueva Cita a Google Calendar</a>
                             </div>
                             <div style="background-color: #f8fafc; padding: 20px; text-align: center; border-top: 1px solid #f1f5f9;">
                                 <p style="margin: 0; font-size: 12px; color: #94a3b8;">Gracias por confiar en nosotros.</p>
@@ -2424,20 +2424,20 @@
                 if(pat && pat.Email && String(pat.Email).includes('@')) {
                     const emailBody = `
                         <div style="font-family: 'Inter', sans-serif, Arial; color: #334155; max-width: 600px; margin: auto; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-                            <div style="background-color: #0d9488; padding: 25px; text-align: center;">
+                            <div style="background-color: #6d28d9; padding: 25px; text-align: center;">
                                 <h2 style="color: white; margin: 0; font-size: 24px; font-weight: bold;">${SYS_CONFIG.Nombre}</h2>
                             </div>
                             <div style="padding: 30px; background-color: #ffffff;">
-                                <h2 style="color: #0d9488; margin-top: 0;">Confirmación de Cita</h2>
+                                <h2 style="color: #6d28d9; margin-top: 0;">Confirmación de Cita</h2>
                                 <p>Hola <strong>${pat.Nombres}</strong>,</p>
                                 <p>Tu cita en <strong>${SYS_CONFIG.Nombre}</strong> ha sido programada exitosamente con <strong>${docName}</strong>.</p>
-                                <div style="background-color: #f0fdfa; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                                <div style="background-color: #FaF7FF; padding: 15px; border-radius: 8px; margin: 20px 0;">
                                     <p style="margin: 5px 0;"><strong>Fecha:</strong> ${date}</p>
                                     <p style="margin: 5px 0;"><strong>Hora:</strong> ${start}</p>
                                     ${costHtml}
                                 </div>
                                 <p>Para no olvidarlo, puedes añadir esta cita a tu calendario haciendo clic en el siguiente botón:</p>
-                                <a href="${calLink}" style="display:inline-block; margin-top: 10px; padding:12px 20px; background-color:#14b8a6; color:white; text-decoration:none; border-radius:8px; font-weight: bold;">Agregar a Google Calendar</a>
+                                <a href="${calLink}" style="display:inline-block; margin-top: 10px; padding:12px 20px; background-color:#8b5cf6; color:white; text-decoration:none; border-radius:8px; font-weight: bold;">Agregar a Google Calendar</a>
                             </div>
                             <div style="background-color: #f8fafc; padding: 20px; text-align: center; border-top: 1px solid #f1f5f9;">
                                 <p style="margin: 0; font-size: 12px; color: #94a3b8;">Gracias por confiar en nosotros.</p>
@@ -2970,7 +2970,7 @@ Tratamiento: ${document.getElementById('chk-n-tratamiento').value}`;
             if(!targets.length) return showToast("No hay pacientes válidos", "error");
             const fullTemplateText = `
                 <div style="font-family: 'Inter', sans-serif, Arial; color: #334155; max-width: 600px; margin: auto; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-                    <div style="background-color: #0d9488; padding: 25px; text-align: center;">
+                    <div style="background-color: #6d28d9; padding: 25px; text-align: center;">
                         <h2 style="color: white; margin: 0; font-size: 24px; font-weight: bold;">${SYS_CONFIG.Nombre}</h2>
                     </div>
                     <div style="padding: 30px; background-color: #ffffff;">
@@ -3589,7 +3589,7 @@ Tratamiento: ${document.getElementById('chk-n-tratamiento').value}`;
                     role = 'admin';
                 } else {
                     try {
-                        const userDoc = await getDoc(doc(db, 'CMC', user.email));
+                        const userDoc = await getDoc(doc(db, 'CGH', user.email));
                         if (userDoc.exists()) {
                             role = userDoc.data().role || userDoc.data().rol || 'user';
                         }
