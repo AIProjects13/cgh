@@ -1128,7 +1128,7 @@
         const auth = getAuth(app);
         setPersistence(auth, browserSessionPersistence).catch(console.error);
         const db = getFirestore(app);
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwRqrucTFy3kFmVUOvV41fZC1oinGLHN8s3LicRYBJf5ifFxvpTcOieOySA0tK9QEf4/exec";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx5hLHN6HDpOcOIIbwL5FG71SF5ELyHLdYnenXy-m-K2KdhDpoZE1tDe_4XI8ZL1JM/exec";
 
         let DB = { Pacientes: [], Historia_Clinica: [], Citas: [], Finanzas: [], Gastos: [], Caja_Mensual: [], Marketing_Templates: [], Auditoria_Logs: [] };
         let SYS_CONFIG = { Nombre: 'Clini-k', HoraApertura: '08:00', HoraCierre: '18:00', Dias: ['1','2','3','4','5'], Doctores: [], CalendarID: '' };
@@ -1160,7 +1160,11 @@
             return false;
         }
 
-        const sysTime = () => new Date().toISOString();
+        const getGTDate = (d = new Date()) => {
+            const str = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Guatemala', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(d);
+            return str.replace(', ', 'T');
+        };
+        const sysTime = () => getGTDate();
         const formatMoney = (val) => Number(val || 0).toFixed(2);
         
         window.showToast = function(msg, type = 'success') {
@@ -1404,7 +1408,7 @@
                     }
 
                     const logData = {
-                        Timestamp: new Date().toISOString(),
+                        Timestamp: sysTime(),
                         Modulo: table,
                         Accion: accionEs,
                         Detalles: logDetalles,
@@ -1590,7 +1594,7 @@
             const idCita = isEditing ? window.currentEditVDId : `VD-${Date.now()}`;
             
             let idPago = `PAY-${Date.now()}`;
-            let originalFecha = new Date().toISOString();
+            let originalFecha = sysTime();
             if (isEditing) {
                 const fin = DB.Finanzas.find(f => String(f.ID_Cita) === String(idCita));
                 if (fin) {
@@ -2699,7 +2703,7 @@ Tratamiento: ${document.getElementById('chk-n-tratamiento').value}`;
                 
                 document.getElementById('rec-pat').innerText = vdCliente;
                 document.getElementById('rec-doc').innerText = 'Venta Directa';
-                document.getElementById('rec-date').innerText = fin && fin.Fecha_Pago ? fin.Fecha_Pago.split('T')[0] : new Date().toISOString().split('T')[0];
+                document.getElementById('rec-date').innerText = fin && fin.Fecha_Pago ? fin.Fecha_Pago.split('T')[0] : sysTime().split('T')[0];
                 document.getElementById('rec-motivo').innerText = vdConcepto;
             } else {
                 const apt = DB.Citas.find(x => String(x.ID_Cita) === String(aptId));
@@ -3069,7 +3073,7 @@ Tratamiento: ${document.getElementById('chk-n-tratamiento').value}`;
                 Concepto: concepto,
                 Monto: monto,
                 Metodo_Pago: metodo,
-                Timestamp: new Date().toISOString()
+                Timestamp: sysTime()
             };
 
             showLoader(isEditing ? "Actualizando Gasto..." : "Registrando Gasto...");
@@ -3178,7 +3182,7 @@ Tratamiento: ${document.getElementById('chk-n-tratamiento').value}`;
             btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
             btn.disabled = true;
 
-            const ts = new Date().toISOString();
+            const ts = sysTime();
             const d = new Date();
             const mes_ano = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
 
@@ -3475,7 +3479,7 @@ Tratamiento: ${document.getElementById('chk-n-tratamiento').value}`;
                     Marketing_OptIn: optin,
                     Status: 'Activo',
                     Creado_En: sysTime(),
-                    Fecha_Registro: new Date().toISOString() 
+                    Fecha_Registro: sysTime() 
                 };
                 DB.Pacientes.push(newPat);
                 await syncBackend('Pacientes', newPat, 'create');
